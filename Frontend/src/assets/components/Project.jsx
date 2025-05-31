@@ -10,7 +10,7 @@ const projects = [
     description:
       "Offline-capable voice assistant using Whisper, LangChain, Pinecone, and Mistral. Supports voice input, intent detection, RAG, and secure offline inference.",
     tech: ["React", "Whisper", "LangChain", "Pinecone", "Mistral"],
-    github: "https://github.com/your-username/medical-chatbot",
+    github: "https://github.com/deep10dr/Mini-project",
     demo: "https://doc-assist-frontend.vercel.app/",
   },
   {
@@ -20,7 +20,7 @@ const projects = [
     description:
       "DreamSketch generates stunning images with Hugging Face models, using a React frontend and dynamic model-based Express backend.",
     tech: ["React", "Tailwind", "Hugging Face", "Express", "Flux"],
-    github: "https://github.com/your-username/dreamsketch",
+    github: "https://github.com/deep10dr/DreamSketch_Frontend",
     demo: "https://dream-sketch-phi.vercel.app/",
   },
   {
@@ -30,9 +30,20 @@ const projects = [
     description:
       "Face authentication app using React, FastAPI, DeepFace. capture, and compares face embeddings with stored profiles.",
     tech: ["React", "FastAPI", "DeepFace", "FaceNet"],
-    github: "https://github.com/your-username/face-finder",
+    github: "https://github.com/deep10dr/Attendance",
     demo: "https://facefinder-demo.com",
   },
+{
+  title: "Tragoudi",
+  subtitle: "Ad-free web-based audio player",
+  image: "/projects/tra.png",
+  description:
+    "Tragoudi is a sleek, ad-free audio player built with React, Tailwind CSS, and Supabase. Inspired by the limitations of free Spotify, it offers a custom music listening experience without interruptions.",
+  tech: ["React", "Tailwind", "Supabase"],
+  github: "https://github.com/deep10dr/Tragoudi",
+  demo: "https://tragoudi.vercel.app/",
+}
+
 ];
 
 function Project() {

@@ -25,7 +25,7 @@ function Contact() {
     toast.dismiss();
 
     try {
-      const res = await axios.post('http://localhost:5000/send-email', formData);
+      const res = await axios.post('https://portfolio-production-2464.up.railway.app/send-email', formData);
 
       if (res.status === 200) {
         toast.success('Message sent successfully!');

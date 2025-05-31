@@ -3,7 +3,7 @@ import React from 'react';
 function About() {
   const handleDownload = () => {
     const link = document.createElement('a');
-    link.href = '/Deepak_Resume.pdf'; // Make sure this file exists in public folder
+    link.href = '/resume.pdf'; // Make sure this file exists in public folder
     link.download = 'Deepak_Resume.pdf';
     link.click();
   };

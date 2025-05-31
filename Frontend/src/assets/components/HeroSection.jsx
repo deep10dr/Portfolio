@@ -45,7 +45,7 @@ function HeroSection() {
       
       {/* Profile Image with Fixed Container and Image Animation */}
       <div>
-        <div className='w-68 h-78 md:w-80 md:h-100 rounded-4xl overflow-hidden shadow-2xl'>
+        <div className='w-68 h-78 md:w-80 md:h-100 rounded-4xl overflow-hidden shadow-2xl md:mt-1 mt-5'>
           <img 
             src='/IMG_2418.jpg' 
             alt='Deepak' 

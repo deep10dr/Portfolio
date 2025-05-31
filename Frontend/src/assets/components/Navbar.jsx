@@ -33,7 +33,7 @@ function Navbar() {
   ];
 
   return (
-    <nav className="fixed top-0 left-0 w-full bg-[#0A2E3A]/90 text-[#F0F8FF] shadow-[0_2px_8px_rgba(0,0,0,0.6)] z-50">
+<nav className="fixed top-0 left-0 w-full bg-[#0A2E3A]/80 text-[#F0F8FF] shadow-[0_2px_8px_rgba(0,0,0,0.6)] z-50 backdrop-blur-md">
       <div className="max-w-screen-xl mx-auto px-6 py-4 flex justify-between items-center">
 
         {/* Logo */}

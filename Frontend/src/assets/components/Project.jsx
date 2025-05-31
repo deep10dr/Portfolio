@@ -11,7 +11,7 @@ const projects = [
       "Offline-capable voice assistant using Whisper, LangChain, Pinecone, and Mistral. Supports voice input, intent detection, RAG, and secure offline inference.",
     tech: ["React", "Whisper", "LangChain", "Pinecone", "Mistral"],
     github: "https://github.com/your-username/medical-chatbot",
-    demo: "https://medical-chatbot-demo.com",
+    demo: "https://doc-assist-frontend.vercel.app/",
   },
   {
     title: "DreamSketch",
@@ -21,7 +21,7 @@ const projects = [
       "DreamSketch generates stunning images with Hugging Face models, using a React frontend and dynamic model-based Express backend.",
     tech: ["React", "Tailwind", "Hugging Face", "Express", "Flux"],
     github: "https://github.com/your-username/dreamsketch",
-    demo: "https://dreamsketch-demo.com",
+    demo: "https://dream-sketch-phi.vercel.app/",
   },
   {
     title: "Face Finder",

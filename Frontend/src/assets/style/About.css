@@ -1,0 +1,27 @@
+/* Diagonal Wave Effect */
+.wave {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 300px;
+  background: linear-gradient(to right, #0A2E3A 50%, transparent 50%);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+  z-index: 5;
+  transform: rotate(-2deg);
+}
+
+/* Adjust wave height and scale for smaller devices */
+@media (max-width: 768px) {
+  .wave {
+    height: 200px; /* Smaller wave height for tablets */
+    top: 45%; /* Adjust top position to center the wave */
+  }
+}
+
+@media (max-width: 480px) {
+  .wave {
+    height: 350px; /* Even smaller wave height for mobile */
+    top: 40%; /* Adjust top position for mobile */
+  }
+}

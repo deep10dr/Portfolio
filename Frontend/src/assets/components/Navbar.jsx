@@ -68,7 +68,7 @@ function Navbar() {
 
       {/* Mobile Menu */}
       <div
-        className={`bg-[#0A2E3A] md:hidden absolute w-full left-0 transition-all duration-300 font-bold ${isMenuOpen ? 'flex flex-col items-center space-y-4 py-4' : 'hidden'}`}
+        className={`bg-[#0A2E3A]/80 md:hidden absolute w-full left-0 transition-all duration-300 font-semibold ${isMenuOpen ? 'flex flex-col items-center space-y-4 py-4' : 'hidden'}`}
       >
         {navLinks.map((link, index) => (
           <Link

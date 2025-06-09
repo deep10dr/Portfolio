@@ -55,7 +55,7 @@ function HeroSection() {
       </div>
 
       {/* Introduction with Animation */}
-      <div className='md:w-[50%]  w-full'>
+      <div className='md:w-[50%]  w-full m-0'>
         <div className='text-center md:text-left text-[#EEEEEE] space-y-4 transform transition-all duration-1000 ease-in-out hover:translate-x-4'>
           
           {/* Typing Animation */}
@@ -83,7 +83,7 @@ function HeroSection() {
 
          <div className='md:text-left text-center '>
            <a href="#projects">
-            <button className='bg-[#14576D] text-[#EEEEEE] px-8 py-4 cursor-pointer rounded-lg shadow-lg transform transition duration-300 ease-in-out hover:bg-[#1E758D] hover:scale-110 hover:shadow-2xl focus:outline-none focus:ring-4 focus:ring-[#1E758D]'>
+            <button className='bg-[#14576D] text-[#EEEEEE] px-6 py-4 cursor-pointer rounded-lg shadow-lg transform transition duration-300 ease-in-out hover:bg-[#1E758D] hover:scale-110 hover:shadow-2xl focus:outline-none focus:ring-4 focus:ring-[#1E758D]'>
               View My Work
             </button>
           </a>

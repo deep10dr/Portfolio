@@ -36,9 +36,9 @@ const projects = [
     description:
       "Face authentication app using React, FastAPI, DeepFace. Capture and compare face embeddings with stored profiles.",
     tech: ["React", "FastAPI", "DeepFace", "FaceNet"],
-    github: "https://github.com/deep10dr/Attendance",
-    demo: "https://facefinder-demo.com",
-    deployedOn: "Netlify + DigitalOcean",
+    github: "https://github.com/deep10dr/FaceFinder",
+    demo: "https://face-finder-pi.vercel.app",
+    deployedOn: "Vercel + DigitalOcean",
     struggles: "Ensuring accurate real-time detection with minimal latency and handling diverse lighting conditions.",
     progress: "75% complete — face matching core done, improving UI and edge cases.",
   },
@@ -92,10 +92,10 @@ function Project() {
   const project = projects[current];
 
   return (
-    <div className="h-screen pt-20 px-4 lg:px-10 text-white flex flex-col items-center">
+    <div className="md:h-screen h-max pt-20 px-4 lg:px-10 text-white flex flex-col items-center">
       <h2 className="text-4xl font-bold mb-10 text-[#66D3FA]">My Projects</h2>
 
-      <div className="w-full h-[600px] relative flex justify-center">
+      <div className="w-full md:h-[600px] h-max relative flex justify-center">
         <AnimatePresence mode="wait">
           <motion.div
             key={current}
@@ -176,14 +176,14 @@ function Project() {
             {/* Arrows only visible on hover */}
             <button
               onClick={prev}
-              className="absolute left-4 top-1/2 -translate-y-1/2 bg-[#0A2E3A]/80 hover:bg-[#0D4C5C]/90 p-3 rounded-full text-white shadow-lg transition-transform hover:scale-110 z-10 hidden group-hover:block"
+              className="absolute left-0 top-1/2 -translate-y-1/2 bg-[#0A2E3A]/80 hover:bg-[#0D4C5C]/90 p-3 rounded-full text-white shadow-lg transition-transform hover:scale-110 z-10 "
             >
               <FiChevronLeft size={36} />
             </button>
 
             <button
               onClick={next}
-              className="absolute right-4 top-1/2 -translate-y-1/2 bg-[#0A2E3A]/80 hover:bg-[#0D4C5C]/90 p-3 rounded-full text-white shadow-lg transition-transform hover:scale-110 z-10 hidden group-hover:block"
+              className="absolute right-1 top-1/2 -translate-y-1/2 bg-[#0A2E3A]/80 hover:bg-[#0D4C5C]/90 p-3 rounded-full text-white shadow-lg transition-transform hover:scale-110 z-10 "
             >
               <FiChevronRight size={36} />
             </button>

@@ -32,7 +32,7 @@ const projects = [
   {
     title: "Face Finder",
     subtitle: "Real-time face detection & match",
-    image: "/projects/face-finder.jpg",
+    image: "/projects/face.png",
     description:
       "Face authentication app using React, FastAPI, DeepFace. Capture and compare face embeddings with stored profiles.",
     tech: ["React", "FastAPI", "DeepFace", "FaceNet"],
@@ -67,19 +67,45 @@ const projects = [
     deployedOn: "Netlify",
     struggles: "API rate limiting and structuring dynamic search results clearly.",
     progress: "100% complete — stable and live.",
-  },{
-  title: "Calculator",
-  subtitle: "Basic arithmetic calculator using HTML, CSS & JavaScript",
-  image: "/projects/cal.png",  // replace with your actual image path
-  description:
-    "A simple calculator built from scratch using HTML, CSS, and JavaScript. Supports addition, subtraction, multiplication, and division with a clean and responsive interface.",
-  tech: ["HTML", "CSS", "JavaScript"],
-  github: "https://github.com/deep10dr/calculator",  // replace with your repo link if available
-  demo: "https://deep10dr.github.io/calculator/",  // replace with your live demo URL if available
-  deployedOn: "GitHub Pages / Netlify / Your platform",
-  struggles: "Faced many challenges during the starting stage, including understanding event handling and DOM manipulation in JavaScript.",
-  progress: "100% complete — fully functional and ready to showcase.",
-}
+  }, {
+    title: "Calculator",
+    subtitle: "Basic arithmetic calculator using HTML, CSS & JavaScript",
+    image: "/projects/cal.png",  // replace with your actual image path
+    description:
+      "A simple calculator built from scratch using HTML, CSS, and JavaScript. Supports addition, subtraction, multiplication, and division with a clean and responsive interface.",
+    tech: ["HTML", "CSS", "JavaScript"],
+    github: "https://github.com/deep10dr/calculator",  // replace with your repo link if available
+    demo: "https://deep10dr.github.io/calculator/",  // replace with your live demo URL if available
+    deployedOn: "GitHub Pages / Netlify / Your platform",
+    struggles: "Faced many challenges during the starting stage, including understanding event handling and DOM manipulation in JavaScript.",
+    progress: "100% complete — fully functional and ready to showcase.",
+  }, {
+    title: "Needle & Knots",
+    subtitle: "Online boutique and tailoring service",
+    image: "/projects/needle.png", // update with your image path
+    description:
+      "Needle & Knots is a user-friendly e-commerce platform for custom tailoring and boutique shopping, built with React and Supabase for seamless data handling and secure user sessions.",
+    tech: ["React", "Tailwind", "Supabase", "SweetAlert"],
+    github: "https://github.com/deep10dr/Needle-Knots", // update with your repo URL
+    demo: "https://needle-knots.vercel.app/", // update with your live demo URL
+    deployedOn: "Vercel + Supabase",
+    struggles: "Managing custom measurements, secure session storage, and smooth UI experience for orders.",
+    progress: "90% complete — working on checkout flow and final polish."
+  }
+  , {
+    title: "FoodNest",
+    subtitle: "Modern food ordering and delivery app",
+    image: "/projects/foodnest.png", // update with your image path
+    description:
+      "FoodNest makes online food ordering simple and quick with an intuitive React frontend, Supabase backend for real-time data, and clean UI designed for speed and convenience.",
+    tech: ["React", "Tailwind"],
+    github: "https://github.com/deep10dr/FoodNest", // update with your repo URL
+    demo: "https://food-nest-two.vercel.app/", // update with your live demo URL
+    deployedOn: "Vercel",
+    struggles: "Designing a responsive, user-friendly flow for menu, cart, and order tracking.",
+    progress: "70% complete — core ordering flow ready, adding payment gateway integration."
+  }
+
 
 
 ];

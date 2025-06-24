@@ -19,13 +19,13 @@ function Footer() {
 
           {/* Social Media Icons */}
           <div className="flex space-x-4 mt-4">
-            <a href="https://www.linkedin.com/in/deepak" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.linkedin.com/in/deepak-s-d" target="_blank" rel="noopener noreferrer">
               <FaLinkedin className="text-[#EEEEEE] text-2xl hover:text-[#2E4F4F] transition duration-300" />
             </a>
-            <a href="https://www.instagram.com/deepak" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.instagram.com/deep_dr_46" target="_blank" rel="noopener noreferrer">
               <FaInstagram className="text-[#EEEEEE] text-2xl hover:text-[#2E4F4F] transition duration-300" />
             </a>
-            <a href="https://github.com/deepak" target="_blank" rel="noopener noreferrer">
+            <a href="https://github.com/deep10dr" target="_blank" rel="noopener noreferrer">
               <FaGithub className="text-[#EEEEEE] text-2xl hover:text-[#2E4F4F] transition duration-300" />
             </a>
           </div>

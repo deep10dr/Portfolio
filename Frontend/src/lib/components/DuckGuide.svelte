@@ -521,7 +521,7 @@
 <!-- RUBBER DUCK COMPANION CONTAINER (Fixed at bottom right) -->
 <div class="fixed bottom-5 right-5 z-[9990] flex flex-col items-end gap-2.5 pointer-events-none">
 	<!-- REAL-TIME CHAT STREAM BOX -->
-	{#if isTourEnabled && isBubbleOpen}
+	{#if isBubbleOpen}
 		<div
 			class="pointer-events-auto max-w-xs sm:max-w-sm w-full bg-[#FCF6DC] rounded-2xl p-3.5 border border-[#44A4D8]/35 shadow-2xl space-y-2.5 text-[#4C1A0F] relative backdrop-blur-md"
 			in:fly={{ y: 20, duration: 250 }}
@@ -685,35 +685,25 @@
 
 	<!-- INTERACTIVE RUBBER DUCK MASCOT BUTTON -->
 	<div class="pointer-events-auto flex items-center gap-2">
-		<!-- Mini Status Pill when tour is disabled/collapsed (No Emojis) -->
-		{#if !isTourEnabled}
-			<button
-				onclick={toggleTour}
-				class="px-3 py-1.5 rounded-full bg-white/95 backdrop-blur-md border border-[#44A4D8]/30 shadow-md text-[11px] font-bold text-[#4C1A0F] hover:border-[#F68E0B] hover:text-[#F68E0B] transition cursor-pointer flex items-center gap-1.5"
-				in:fade={{ duration: 150 }}
-			>
-				<DuckIcon size={14} class="shrink-0" />
-				<span>Duck Asleep (Wake Up)</span>
-			</button>
-		{:else if !isBubbleOpen}
+		<!-- Mini Status Pill when duck is asleep (Touch to wake) -->
+		{#if !isBubbleOpen}
 			<button
 				onclick={openChat}
-				class="px-3 py-1.5 rounded-full bg-[#F68E0B] text-white shadow-md text-[11px] font-bold transition hover:bg-[#EE7B48] cursor-pointer flex items-center gap-1.5"
+				class="px-3.5 py-1.5 rounded-full bg-[#F68E0B] hover:bg-[#EE7B48] text-white shadow-md text-[11px] font-bold transition-all duration-200 cursor-pointer flex items-center gap-1.5 transform hover:scale-105 active:scale-95 border border-white/20"
 				in:fade={{ duration: 150 }}
+				title="Touch to wake duck"
 			>
 				<DuckIcon size={14} class="shrink-0" />
-				<span>Talk to Duck</span>
+				<span>Duck Asleep (Touch to wake)</span>
 			</button>
 		{/if}
 
 		<!-- The Duck Avatar with Floating Animation -->
 		<button
 			onclick={handleDuckClick}
-			title={isTourEnabled ? 'Click to talk / hide duck' : 'Click to wake up duck guide'}
+			title={isBubbleOpen ? 'Click to put duck to sleep / hide' : 'Touch to wake duck!'}
 			aria-label="Duck Guide Mascot"
-			class="duck-float relative w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-br from-[#FCF1D4] to-white border-3 {isTourEnabled
-				? 'border-[#F68E0B] shadow-xl hover:scale-110 active:scale-95'
-				: 'border-gray-300 opacity-70 hover:opacity-100'} p-1.5 transition-all duration-300 cursor-pointer flex items-center justify-center group {isCaffeinated ? 'caffeine-shake' : ''} {isDizzy ? 'dizzy-spin' : ''}"
+			class="duck-float relative w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-br from-[#FCF1D4] to-white border-3 border-[#F68E0B] shadow-xl hover:scale-110 active:scale-95 p-1.5 transition-all duration-300 cursor-pointer flex items-center justify-center group {isCaffeinated ? 'caffeine-shake' : ''} {isDizzy ? 'dizzy-spin' : ''}"
 		>
 			<!-- Cute Custom Rubber Duck SVG with Developer Glasses, Cowlick & Bow Tie -->
 			<svg
@@ -780,7 +770,7 @@
 			{:else if isCaffeinated}
 				<Flame size={14} class="absolute -top-3 -left-1 text-orange-500 animate-bounce" />
 				<Coffee size={14} class="absolute -top-3 -right-1 text-amber-800 animate-pulse" />
-			{:else if isTourEnabled}
+			{:else if isBubbleOpen}
 				<span
 					class="absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full bg-[#F68E0B] border-2 border-white animate-pulse"
 				></span>

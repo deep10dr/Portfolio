@@ -1,5 +1,5 @@
 <script>
-	import '../app.css';
+	import '$lib/app.css';
 	import Toast from '$lib/components/Toast.svelte';
 	import DuckGuide from '$lib/components/DuckGuide.svelte';
 

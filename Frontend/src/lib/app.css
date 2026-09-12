@@ -1,0 +1,64 @@
+@import "tailwindcss";
+
+html {
+	scroll-behavior: smooth;
+	font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+code, kbd, samp, pre {
+	font-family: 'JetBrains Mono', monospace;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+	width: 8px;
+	height: 8px;
+}
+
+::-webkit-scrollbar-track {
+	background: #fcf6dc;
+}
+
+::-webkit-scrollbar-thumb {
+	background: #44a4d8;
+	border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: #f68e0b;
+}
+
+/* ── Modern Animated Background with Subtle Dot Grid ── */
+.animated-bg {
+	position: relative;
+	background-color: #fcf6dc;
+	background-image: radial-gradient(#44a4d8 0.75px, transparent 0.75px);
+	background-size: 28px 28px;
+	background-position: 0 0;
+	z-index: 0;
+}
+
+.animated-bg::before {
+	content: "";
+	position: fixed;
+	width: 100vw;
+	height: 100vh;
+	top: 0;
+	left: 0;
+	background: radial-gradient(circle at 15% 20%, rgba(68, 164, 216, 0.12) 0%, transparent 40%),
+	            radial-gradient(circle at 85% 60%, rgba(246, 142, 11, 0.10) 0%, transparent 45%),
+	            radial-gradient(circle at 50% 90%, rgba(247, 187, 171, 0.15) 0%, transparent 40%);
+	pointer-events: none;
+	z-index: -1;
+}
+
+/* ── Performance & Rendering Optimization ── */
+#about,
+#skills,
+#projects,
+#contact {
+	content-visibility: auto;
+	contain-intrinsic-size: 1px 700px;
+}

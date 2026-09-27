@@ -9,7 +9,6 @@
 		ChevronDown,
 		Menu,
 		X,
-		FileText,
 		ArrowUp
 	} from '@lucide/svelte';
 	import DuckIcon from '$lib/icons/DuckIcon.svelte';
@@ -110,7 +109,7 @@
 				class="flex items-center gap-2 cursor-pointer select-none bg-transparent border-none text-[#4C1A0F] font-black text-xl tracking-tight group"
 			>
 				<span class="font-extrabold tracking-tight">
-					Deepak<span class="text-[#F68E0B]">.</span>
+					Deepak
 				</span>
 			</button>
 
@@ -127,18 +126,6 @@
 						{link.label}
 					</button>
 				{/each}
-			</div>
-
-			<!-- Right Side Resume Quick Link (Desktop) -->
-			<div class="hidden md:flex items-center gap-3">
-				<a
-					href="/resume.pdf"
-					download="Deepak_Resume.pdf"
-					class="inline-flex items-center gap-1.5 text-xs font-bold px-3.5 py-1.5 rounded-xl bg-[#44A4D8]/15 text-[#44A4D8] hover:bg-[#44A4D8] hover:text-white transition-all duration-200 border border-[#44A4D8]/25 shadow-2xs"
-				>
-					<FileText size={14} />
-					<span>Resume</span>
-				</a>
 			</div>
 
 			<!-- Mobile Menu Toggle Button -->
@@ -171,16 +158,6 @@
 						{link.label}
 					</button>
 				{/each}
-				<div class="pt-2 border-t border-[#4C1A0F]/10">
-					<a
-						href="/resume.pdf"
-						download="Deepak_Resume.pdf"
-						class="w-full inline-flex items-center justify-center gap-2 py-2.5 rounded-xl bg-[#44A4D8] text-white font-bold text-xs shadow-xs"
-					>
-						<FileText size={14} />
-						<span>Download Resume</span>
-					</a>
-				</div>
 			</div>
 		{/if}
 	</header>
@@ -277,21 +254,13 @@
 					</button>
 				{/each}
 
-				<div class="pt-2 border-t border-[#4C1A0F]/10 flex items-center gap-2">
-					<a
-						href="/resume.pdf"
-						download="Deepak_Resume.pdf"
-						class="flex-1 inline-flex items-center justify-center gap-1.5 py-2 rounded-xl bg-[#44A4D8] hover:bg-[#4A8EAC] text-white font-bold text-xs shadow-xs transition"
-					>
-						<FileText size={13} />
-						<span>Resume</span>
-					</a>
+				<div class="pt-2 border-t border-[#4C1A0F]/10">
 					<button
 						onclick={() => scrollTo('hero')}
-						title="Back to Top"
-						class="p-2 rounded-xl bg-[#FCF1D4] hover:bg-[#F68E0B] text-[#4C1A0F] hover:text-white border border-[#44A4D8]/20 transition cursor-pointer"
+						class="w-full inline-flex items-center justify-center gap-1.5 py-2 rounded-xl bg-[#FCF1D4] hover:bg-[#F68E0B] text-[#4C1A0F] hover:text-white border border-[#44A4D8]/20 transition cursor-pointer font-bold text-xs shadow-2xs"
 					>
-						<ArrowUp size={15} />
+						<ArrowUp size={14} />
+						<span>Back to Top</span>
 					</button>
 				</div>
 			</div>

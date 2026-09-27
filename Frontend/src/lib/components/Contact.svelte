@@ -106,7 +106,6 @@
 					<p class="text-sm md:text-base font-bold text-[#4C1A0F]">
 						Salem, Tamil Nadu, India
 					</p>
-					<p class="text-xs text-[#4C1A0F]/60">Available for remote & hybrid roles</p>
 				</div>
 
 				<!-- Phone Card -->

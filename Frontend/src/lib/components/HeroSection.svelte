@@ -137,7 +137,7 @@
 					<LeetcodeIcon size={20} />
 				</a>
 				<a
-					href="https://www.instagram.com/deep_dr_46/"
+					href="https://www.instagram.com/deepk_17/"
 					target="_blank"
 					rel="noopener noreferrer"
 					title="Instagram Profile"

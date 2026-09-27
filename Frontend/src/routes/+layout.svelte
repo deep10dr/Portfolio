@@ -2,6 +2,7 @@
 	import '$lib/app.css';
 	import Toast from '$lib/components/Toast.svelte';
 	import DuckGuide from '$lib/components/DuckGuide.svelte';
+	import ResumeModal from '$lib/components/ResumeModal.svelte';
 
 	let { children } = $props();
 </script>
@@ -12,4 +13,5 @@
 
 <Toast />
 <DuckGuide />
+<ResumeModal />
 {@render children()}

@@ -1,13 +1,7 @@
 <script>
-	import { Download, Terminal, GraduationCap, MapPin, Cpu } from '@lucide/svelte';
+	import { Download, Terminal, GraduationCap, MapPin, Cpu, FileText } from '@lucide/svelte';
 	import DuckIcon from '$lib/icons/DuckIcon.svelte';
-
-	function handleDownload() {
-		const link = document.createElement('a');
-		link.href = '/resume.pdf';
-		link.download = 'Deepak_Resume.pdf';
-		link.click();
-	}
+	import { openResume, downloadResume } from '$lib/resumeModal.svelte.js';
 
 	const coreTools = [
 		{ name: 'Go', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/go/go-original.svg' },
@@ -132,14 +126,22 @@
 				</div>
 			</div>
 
-			<!-- Resume Button -->
-			<div class="pt-2 flex items-center">
+			<!-- Resume Actions: View in PDF Viewer or Download -->
+			<div class="pt-2 flex flex-wrap items-center gap-3">
 				<button
-					onclick={handleDownload}
+					onclick={openResume}
 					class="inline-flex items-center gap-2 bg-[#F68E0B] hover:bg-[#EE7B48] text-white px-6 py-2.5 rounded-full font-semibold shadow-md transition-all duration-300 hover:scale-105 cursor-pointer focus:outline-none focus:ring-4 focus:ring-[#F68E0B]/40 text-sm md:text-base border-none"
 				>
-					<Download size={18} />
-					<span>Download Resume (PDF)</span>
+					<FileText size={18} />
+					<span>View Resume (PDF)</span>
+				</button>
+				<button
+					onclick={downloadResume}
+					class="inline-flex items-center gap-2 bg-white/90 hover:bg-[#44A4D8] hover:text-white text-[#4C1A0F] border border-[#44A4D8]/30 px-5 py-2.5 rounded-full font-semibold shadow-xs hover:shadow-md transition-all duration-300 hover:scale-105 cursor-pointer text-sm md:text-base"
+					title="Download Deepak_Resume.pdf directly"
+				>
+					<Download size={16} />
+					<span>Download PDF</span>
 				</button>
 			</div>
 		</div>

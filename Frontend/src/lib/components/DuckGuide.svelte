@@ -1,13 +1,11 @@
 <script>
+	import { tick } from 'svelte';
 	import { fly, fade, scale } from 'svelte/transition';
 	import {
 		X,
 		Minus,
-		ChevronRight,
-		ChevronLeft,
 		Volume2,
 		VolumeX,
-		Sparkles,
 		Lightbulb,
 		Coffee,
 		Bug,
@@ -24,6 +22,7 @@
 	} from '@lucide/svelte';
 	import { success } from '$lib/toast.svelte.js';
 	import DuckIcon from '$lib/icons/DuckIcon.svelte';
+	import { openResume } from '$lib/resumeModal.svelte.js';
 
 	let soundEnabled = $state(true);
 	let isExploding = $state(false);
@@ -32,25 +31,68 @@
 
 	// Funny developer easter egg states
 	let bugsEaten = $state(0);
-	let lastBugReaction = $state(null);
-	let bugTimer = null;
-
 	let isCaffeinated = $state(false);
 	let caffeineTimer = null;
 
-	let currentWisdom = $state(null);
 	let clickCount = $state(0);
 	let isDizzy = $state(false);
 	let dizzyTimer = null;
 	let lastClickTime = 0;
 
-	// Web Audio synthetic playful cartoon quack
-	function playQuack() {
-		if (!soundEnabled || typeof window === 'undefined') return;
+	// Track pending asynchronous timers to avoid leaks on hide / unmount
+	let activeTimeouts = [];
+	function registerTimeout(fn, delay) {
+		const id = setTimeout(() => {
+			activeTimeouts = activeTimeouts.filter((t) => t !== id);
+			fn();
+		}, delay);
+		activeTimeouts.push(id);
+		return id;
+	}
+
+	function clearAllTimers() {
+		for (const id of activeTimeouts) {
+			clearTimeout(id);
+		}
+		activeTimeouts = [];
+		if (countdownInterval) {
+			clearInterval(countdownInterval);
+			countdownInterval = null;
+		}
+		if (caffeineTimer) {
+			clearTimeout(caffeineTimer);
+			caffeineTimer = null;
+		}
+		if (dizzyTimer) {
+			clearTimeout(dizzyTimer);
+			dizzyTimer = null;
+		}
+	}
+
+	// Singleton AudioContext to prevent "maximum number of hardware contexts reached" errors
+	let sharedAudioCtx = null;
+	function getAudioCtx() {
+		if (!soundEnabled || typeof window === 'undefined') return null;
 		try {
 			const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-			if (!AudioContextClass) return;
-			const ctx = new AudioContextClass();
+			if (!AudioContextClass) return null;
+			if (!sharedAudioCtx || sharedAudioCtx.state === 'closed') {
+				sharedAudioCtx = new AudioContextClass();
+			}
+			if (sharedAudioCtx.state === 'suspended') {
+				sharedAudioCtx.resume().catch(() => {});
+			}
+			return sharedAudioCtx;
+		} catch {
+			return null;
+		}
+	}
+
+	// Web Audio synthetic playful cartoon quack
+	function playQuack() {
+		const ctx = getAudioCtx();
+		if (!ctx) return;
+		try {
 			const osc = ctx.createOscillator();
 			const gain = ctx.createGain();
 
@@ -71,11 +113,9 @@
 
 	// Web Audio synthetic cartoon explosion sound effect
 	function playExplosion() {
-		if (!soundEnabled || typeof window === 'undefined') return;
+		const ctx = getAudioCtx();
+		if (!ctx) return;
 		try {
-			const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-			if (!AudioContextClass) return;
-			const ctx = new AudioContextClass();
 			const now = ctx.currentTime;
 
 			// Sub-bass boom
@@ -92,7 +132,7 @@
 			osc1.stop(now + 0.9);
 
 			// Noise blast burst
-			const bufferSize = ctx.sampleRate * 0.4;
+			const bufferSize = Math.floor(ctx.sampleRate * 0.4);
 			const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
 			const data = buffer.getChannelData(0);
 			for (let i = 0; i < bufferSize; i++) {
@@ -108,8 +148,9 @@
 			noise.start(now);
 
 			// Squeaky cartoon slide whistle after blast
-			setTimeout(() => {
+			registerTimeout(() => {
 				try {
+					if (!ctx || ctx.state === 'closed') return;
 					const osc2 = ctx.createOscillator();
 					const gain2 = ctx.createGain();
 					const now2 = ctx.currentTime;
@@ -129,11 +170,9 @@
 
 	// Web Audio synthetic cute bug crunch / chomp sound
 	function playChomp() {
-		if (!soundEnabled || typeof window === 'undefined') return;
+		const ctx = getAudioCtx();
+		if (!ctx) return;
 		try {
-			const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-			if (!AudioContextClass) return;
-			const ctx = new AudioContextClass();
 			const now = ctx.currentTime;
 			const osc = ctx.createOscillator();
 			const gain = ctx.createGain();
@@ -154,11 +193,9 @@
 
 	// Web Audio synthetic caffeine overdrive 8-bit power-up
 	function playCaffeine() {
-		if (!soundEnabled || typeof window === 'undefined') return;
+		const ctx = getAudioCtx();
+		if (!ctx) return;
 		try {
-			const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-			if (!AudioContextClass) return;
-			const ctx = new AudioContextClass();
 			const freqs = [392, 523.25, 659.25, 783.99, 1046.5];
 			freqs.forEach((freq, idx) => {
 				const osc = ctx.createOscillator();
@@ -178,11 +215,9 @@
 
 	// Web Audio synthetic gentle wisdom chime
 	function playWisdom() {
-		if (!soundEnabled || typeof window === 'undefined') return;
+		const ctx = getAudioCtx();
+		if (!ctx) return;
 		try {
-			const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-			if (!AudioContextClass) return;
-			const ctx = new AudioContextClass();
 			const freqs = [523.25, 659.25, 783.99];
 			freqs.forEach((freq, idx) => {
 				const osc = ctx.createOscillator();
@@ -205,7 +240,7 @@
 		explosionCountdown = 5;
 		playExplosion();
 
-		clearInterval(countdownInterval);
+		if (countdownInterval) clearInterval(countdownInterval);
 		countdownInterval = setInterval(() => {
 			if (explosionCountdown > 1) {
 				explosionCountdown--;
@@ -232,14 +267,18 @@
 
 	// Real-time conversational chat stream (starts empty until duck is touched)
 	let chatMessages = $state([]);
+	let messageCounter = 0;
 
-	function addMessage(sender, text) {
-		chatMessages = [...chatMessages, { id: Math.random().toString(), sender, text }];
-		if (typeof setTimeout !== 'undefined') {
-			setTimeout(() => {
-				const box = document.getElementById('duck-chat-stream');
-				if (box) box.scrollTop = box.scrollHeight;
-			}, 60);
+	async function addMessage(sender, text) {
+		messageCounter++;
+		const id = `duck-msg-${Date.now()}-${messageCounter}`;
+		chatMessages = [...chatMessages, { id, sender, text }];
+		if (typeof window !== 'undefined') {
+			await tick();
+			const box = document.getElementById('duck-chat-stream');
+			if (box) {
+				box.scrollTop = box.scrollHeight;
+			}
 		}
 	}
 
@@ -248,14 +287,16 @@
 		about: "Deepak's personal coding rule: If code compiles cleanly on the first try, inspect the assembly immediately because something is definitely cursed. Also, his sleep schedule is single-threaded with 0 retries!",
 		skills: "Here is his tech stack: Go, Python, Svelte, Docker, Redis, PostgreSQL... Deepak claims he understands regex without googling, but honestly, nobody actually understands regex.",
 		projects: "Behold his projects! DeepPhotos is self-hosted with Docker & MinIO because why trust third-party clouds when you can overheat your own home server? Switch to Spotlight mode for real architecture battle scars!",
-		contact: "Need a backend engineer, or want to send him an unhinged bug report? Drop him a message right here—it hits his phone directly faster than an uncaught exception crashes Node.js!"
+		contact: "Need a backend engineer, or want to send him a message? Drop him a direct email right here—faster than an uncaught exception crashes Node.js!"
 	};
 
-	let lastAnnouncedSection = 'hero';
-
 	function restoreScreen() {
-		clearInterval(countdownInterval);
+		if (countdownInterval) {
+			clearInterval(countdownInterval);
+			countdownInterval = null;
+		}
 		isExploding = false;
+		explosionCountdown = 5;
 		playQuack();
 		addMessage('duck', 'Phew! Apology accepted. Production hotfix deployed. Duck rage level restored to normal.');
 		success('Duck calmed down! Production restored safely.');
@@ -286,7 +327,7 @@
 		playWisdom();
 		const random = duckWisdoms[Math.floor(Math.random() * duckWisdoms.length)];
 		addMessage('user', 'Got any senior dev wisdom?');
-		setTimeout(() => {
+		registerTimeout(() => {
 			playQuack();
 			addMessage('duck', random);
 		}, 250);
@@ -308,7 +349,7 @@
 		playChomp();
 		const reaction = bugReactions[Math.floor(Math.random() * bugReactions.length)];
 		addMessage('user', 'Here, eat this bug.');
-		setTimeout(() => {
+		registerTimeout(() => {
 			playQuack();
 			addMessage('duck', `${reaction} (Total bugs devoured: ${bugsEaten})`);
 		}, 250);
@@ -317,18 +358,18 @@
 	function giveDuckEspresso() {
 		playCaffeine();
 		isCaffeinated = true;
-		clearTimeout(caffeineTimer);
+		if (caffeineTimer) clearTimeout(caffeineTimer);
 		caffeineTimer = setTimeout(() => {
 			isCaffeinated = false;
 		}, 9000);
 		addMessage('user', 'Drink this double-shot espresso!');
-		setTimeout(() => {
+		registerTimeout(() => {
 			addMessage(
 				'duck',
 				'400mg OF LIQUID SPEED DETECTED! MY HEART RATE IS 9,000 RPM! I JUST REWROTE THE ENTIRE BACKEND IN RAW ASSEMBLY CODE! SHIP IT TO PRODUCTION RIGHT NOW!'
 			);
 		}, 250);
-		setTimeout(() => {
+		registerTimeout(() => {
 			if (isCaffeinated) {
 				addMessage(
 					'duck',
@@ -338,7 +379,7 @@
 		}, 1800);
 	}
 
-	// Sections configuration with witty context-specific actions (No Emojis)
+	// Sections configuration with context-specific actions (No Emojis)
 	const tourSections = [
 		{
 			id: 'hero',
@@ -347,13 +388,9 @@
 			message:
 				"Quack! I'm Deepak's Senior Rubber Duck. I've survived 4,000 merge conflicts, 3 AM compiler tantrums, and zero paid vacations. Deepak builds high-performance backend systems and self-hosts everything until his RAM begs for mercy!",
 			tip: 'He actually reads documentation instead of blindly copying StackOverflow!',
-			actionLabel: 'Download Resume',
+			actionLabel: 'View Resume (PDF)',
 			action: () => {
-				const link = document.createElement('a');
-				link.href = '/resume.pdf';
-				link.download = 'Deepak_Resume.pdf';
-				link.click();
-				success('Downloading Deepak_Resume.pdf');
+				openResume();
 			}
 		},
 		{
@@ -397,22 +434,25 @@
 			title: 'Get In Touch',
 			badge: '5 / 5',
 			message:
-				'Have an idea, project, or opportunity? Drop a message here — it delivers directly to Deepak’s inbox via automated SMTP!',
-			tip: 'Tip: Fill out the form or copy his email with 1-click!',
-			actionLabel: '📋 Copy Email',
+				'Have an idea, project, or opportunity? Drop Deepak an email directly or copy his address with 1 click!',
+			tip: 'Send an email directly or copy his address with 1-click!',
+			actionLabel: 'Copy Email',
 			action: () => {
-				window.location.href = "mailto:deepakofficial81@gmail.com?subject=Hello%20Deepak%20-%20Let's%20Connect";
+				if (typeof navigator !== 'undefined' && navigator.clipboard) {
+					navigator.clipboard.writeText('deepakofficial81@gmail.com');
+					success('Email address copied to clipboard!');
+				}
 			}
 		}
 	];
 
 	let isBubbleOpen = $state(false); // Starts strictly asleep until touched!
 	let currentSectionId = $state('hero');
-	let visitedSections = $state(new Set(['hero']));
 
 	function hideChat() {
+		clearAllTimers();
 		isBubbleOpen = false;
-		chatMessages = []; // Duck conversation is completely gone and duck goes to sleep!
+		chatMessages = []; // Duck conversation is completely reset and duck goes to sleep!
 		playQuack();
 	}
 
@@ -431,7 +471,7 @@
 			addMessage('duck', randomWake);
 
 			if (sectionChatNotes[currentSectionId]) {
-				setTimeout(() => {
+				registerTimeout(() => {
 					addMessage('duck', sectionChatNotes[currentSectionId]);
 				}, 450);
 			}
@@ -453,13 +493,7 @@
 			for (const entry of entries) {
 				if (entry.isIntersecting) {
 					currentSectionId = entry.target.id;
-					visitedSections = new Set([...visitedSections, entry.target.id]);
-
-					// Randomize funny duck status in the background
 					currentDuckStatus = duckStatuses[Math.floor(Math.random() * duckStatuses.length)];
-
-					// STRICTLY NEVER AUTO-OPEN OR WAKE UP ON SCROLL!
-					// Duck only awakes once the user touches it!
 				}
 			}
 		}, observerOptions);
@@ -471,10 +505,7 @@
 
 		return () => {
 			observer.disconnect();
-			if (countdownInterval) clearInterval(countdownInterval);
-			if (caffeineTimer) clearTimeout(caffeineTimer);
-			if (dizzyTimer) clearTimeout(dizzyTimer);
-			if (bugTimer) clearTimeout(bugTimer);
+			clearAllTimers();
 		};
 	});
 
@@ -487,20 +518,19 @@
 		}
 		lastClickTime = now;
 
-		playQuack();
-
 		if (clickCount >= 4) {
 			isDizzy = true;
-			clearTimeout(dizzyTimer);
+			if (dizzyTimer) clearTimeout(dizzyTimer);
 			dizzyTimer = setTimeout(() => {
 				isDizzy = false;
 				clickCount = 0;
 			}, 4500);
+			playQuack();
 			addMessage(
 				'duck',
 				"WOAH! Stop poking me so fast! I'm seeing double! Now there are TWO Deepaks on screen and neither of them wrote unit tests!"
 			);
-			success("Slow down! You made the rubber duck dizzy!");
+			success('Slow down! You made the rubber duck dizzy!');
 			return;
 		}
 
@@ -957,4 +987,3 @@
 	.particle-code-5 { animation: flyDebris2 2.7s infinite ease-out 0.9s; color: #fb923c; font-size: 1rem; }
 	.particle-code-6 { animation: flyDebris3 2.9s infinite ease-out 1.1s; color: #ef4444; font-size: 1.05rem; }
 </style>
-

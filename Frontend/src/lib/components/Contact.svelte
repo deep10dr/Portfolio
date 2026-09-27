@@ -1,12 +1,11 @@
 <script>
-	import { User, Mail, MessageSquare, Send, Loader2, MapPin, Phone, Copy, Check, Sparkles } from '@lucide/svelte';
-	import { success, error } from '$lib/toast.svelte.js';
+	import { User, Mail, MessageSquare, Send, MapPin, Phone, Copy, Check, ExternalLink } from '@lucide/svelte';
+	import { success } from '$lib/toast.svelte.js';
 	import LinkedinIcon from '$lib/icons/LinkedinIcon.svelte';
 	import GithubIcon from '$lib/icons/GithubIcon.svelte';
 	import LeetcodeIcon from '$lib/icons/LeetcodeIcon.svelte';
 
 	let formData = $state({ name: '', email: '', message: '' });
-	let loading = $state(false);
 	let copied = $state(false);
 
 	function copyEmail() {
@@ -18,49 +17,46 @@
 		}, 2000);
 	}
 
-	async function handleSubmit(e) {
-		e.preventDefault();
+	function handleGetInTouch(e) {
+		if (e) e.preventDefault();
 
 		const name = formData.name.trim();
 		const email = formData.email.trim();
 		const message = formData.message.trim();
 
-		if (!name || !email || !message) {
-			error('Please fill all fields.');
-			return;
+		const subject = encodeURIComponent(
+			name ? `Portfolio Inquiry from ${name}` : 'Portfolio Inquiry for Deepak S'
+		);
+
+		let bodyContent = message || "Hi Deepak,\n\nI'd like to get in touch with you regarding...";
+		if (name || email) {
+			bodyContent += `\n\n---\nFrom: ${name || 'A visitor'} ${email ? `<${email}>` : ''}`;
 		}
+		const body = encodeURIComponent(bodyContent);
 
-		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-		if (!emailRegex.test(email)) {
-			error('Please enter a valid email address.');
-			return;
+		const mailtoUrl = `mailto:deepakofficial81@gmail.com?subject=${subject}&body=${body}`;
+		window.location.href = mailtoUrl;
+		success('Redirecting to your mail send box...');
+	}
+
+	function openGmailWeb() {
+		const name = formData.name.trim();
+		const email = formData.email.trim();
+		const message = formData.message.trim();
+
+		const subject = encodeURIComponent(
+			name ? `Portfolio Inquiry from ${name}` : 'Portfolio Inquiry for Deepak S'
+		);
+
+		let bodyContent = message || "Hi Deepak,\n\nI'd like to get in touch with you regarding...";
+		if (name || email) {
+			bodyContent += `\n\n---\nFrom: ${name || 'A visitor'} ${email ? `<${email}>` : ''}`;
 		}
+		const body = encodeURIComponent(bodyContent);
 
-		loading = true;
-
-		try {
-			const res = await fetch(
-				'https://portfolio-production-2464.up.railway.app/send-email',
-				{
-					method: 'POST',
-					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify(formData)
-				}
-			);
-
-			const data = await res.json();
-
-			if (res.ok) {
-				success('Message sent successfully!');
-				formData = { name: '', email: '', message: '' };
-			} else {
-				error(data.message || 'Failed to send message.');
-			}
-		} catch {
-			error('Server error. Try again!');
-		} finally {
-			loading = false;
-		}
+		const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=deepakofficial81@gmail.com&su=${subject}&body=${body}`;
+		window.open(gmailUrl, '_blank', 'noopener,noreferrer');
+		success('Opening Gmail in a new tab...');
 	}
 </script>
 
@@ -158,11 +154,29 @@
 				</div>
 			</div>
 
-			<!-- Right: Form Box (3 Cols) -->
+			<!-- Right: Direct Mail Action Box (3 Cols) -->
 			<div class="md:col-span-3 bg-[#FCF1D4]/90 backdrop-blur-md p-7 md:p-9 rounded-3xl shadow-xl border-2 border-[#44A4D8]/20 space-y-6">
-				<h3 class="text-xl font-bold text-[#4C1A0F]">Send a Direct Message</h3>
+				<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#4C1A0F]/10 pb-4">
+					<div>
+						<h3 class="text-xl font-bold text-[#4C1A0F]">Get In Touch</h3>
+						<p class="text-xs text-[#4A8EAC] font-medium mt-0.5">
+							Compose below or click to jump straight into your email send box.
+						</p>
+					</div>
 
-				<form onsubmit={handleSubmit} class="space-y-4">
+					<!-- Direct 1-Click Launch Button -->
+					<a
+						href="mailto:deepakofficial81@gmail.com?subject=Hello%20Deepak%20-%20Let's%20Connect"
+						class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white hover:bg-[#44A4D8] text-[#44A4D8] hover:text-white border border-[#44A4D8]/30 font-bold text-xs shadow-2xs transition-all cursor-pointer self-start sm:self-auto shrink-0"
+						title="Open default email application"
+					>
+						<Mail size={14} />
+						<span>Open Mailbox</span>
+						<ExternalLink size={12} />
+					</a>
+				</div>
+
+				<form onsubmit={handleGetInTouch} class="space-y-4">
 					<!-- Name -->
 					<div class="space-y-1.5">
 						<label for="name-input" class="text-xs font-bold text-[#4C1A0F]/80 uppercase tracking-wider block">Your Name</label>
@@ -175,15 +189,13 @@
 								bind:value={formData.name}
 								placeholder="e.g. John Doe"
 								class="w-full bg-transparent outline-none text-sm text-[#4C1A0F] placeholder-[#4C1A0F]/40 font-medium"
-								required
-								disabled={loading}
 							/>
 						</div>
 					</div>
 
 					<!-- Email -->
 					<div class="space-y-1.5">
-						<label for="email-input" class="text-xs font-bold text-[#4C1A0F]/80 uppercase tracking-wider block">Your Email</label>
+						<label for="email-input" class="text-xs font-bold text-[#4C1A0F]/80 uppercase tracking-wider block">Your Email (Optional)</label>
 						<div class="flex items-center gap-3 bg-white/95 rounded-xl p-3.5 shadow-2xs border border-[#44A4D8]/25 focus-within:border-[#44A4D8] focus-within:ring-2 focus-within:ring-[#44A4D8]/30 transition-all">
 							<Mail class="text-[#44A4D8] shrink-0" size={20} />
 							<input
@@ -193,8 +205,6 @@
 								bind:value={formData.email}
 								placeholder="e.g. john@example.com"
 								class="w-full bg-transparent outline-none text-sm text-[#4C1A0F] placeholder-[#4C1A0F]/40 font-medium"
-								required
-								disabled={loading}
 							/>
 						</div>
 					</div>
@@ -211,27 +221,32 @@
 								placeholder="Tell me about your project, idea, or questions..."
 								rows="4"
 								class="w-full bg-transparent outline-none text-sm text-[#4C1A0F] placeholder-[#4C1A0F]/40 resize-none font-medium"
-								required
-								disabled={loading}
 							></textarea>
 						</div>
 					</div>
 
-					<!-- Submit Button -->
-					<div class="pt-2">
+					<!-- Submit / Action Buttons -->
+					<div class="pt-2 space-y-3">
 						<button
 							type="submit"
-							disabled={loading}
-							class="w-full flex items-center justify-center gap-2.5 px-7 py-3.5 bg-[#F68E0B] text-white text-base font-bold rounded-xl shadow-md hover:bg-[#EE7B48] hover:shadow-lg transition duration-300 transform hover:scale-102 disabled:opacity-50 cursor-pointer border-none"
+							class="w-full flex items-center justify-center gap-2.5 px-7 py-3.5 bg-[#F68E0B] text-white text-base font-bold rounded-xl shadow-md hover:bg-[#EE7B48] hover:shadow-lg transition duration-300 transform hover:scale-102 cursor-pointer border-none"
 						>
-							{#if loading}
-								<Loader2 class="animate-spin" size={18} />
-								<span>Sending Message...</span>
-							{:else}
-								<Send size={18} />
-								<span>Send Message</span>
-							{/if}
+							<Send size={18} />
+							<span>Get In Touch (Send via Email)</span>
 						</button>
+
+						<!-- Webmail fallback: Open in Gmail Web -->
+						<div class="flex items-center justify-between text-xs text-[#4C1A0F]/70 pt-1 px-1">
+							<span>Prefer webmail in browser?</span>
+							<button
+								type="button"
+								onclick={openGmailWeb}
+								class="text-[#44A4D8] hover:text-[#F68E0B] font-bold underline cursor-pointer bg-transparent border-none p-0 inline-flex items-center gap-1 transition-colors"
+							>
+								<span>Open in Gmail Web</span>
+								<ExternalLink size={12} />
+							</button>
+						</div>
 					</div>
 				</form>
 			</div>

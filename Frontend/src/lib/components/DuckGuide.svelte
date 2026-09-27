@@ -397,12 +397,11 @@
 			title: 'Get In Touch',
 			badge: '5 / 5',
 			message:
-				'Drop him a message! His custom backend delivers it straight to his phone faster than a Slack ping. Whether you have an engineering role, a technical challenge, or pizza, he’d love to connect!',
-			tip: 'Copy his email with 1 click, or send him a message directly below!',
-			actionLabel: 'Copy Email',
+				'Have an idea, project, or opportunity? Drop a message here — it delivers directly to Deepak’s inbox via automated SMTP!',
+			tip: 'Tip: Fill out the form or copy his email with 1-click!',
+			actionLabel: '📋 Copy Email',
 			action: () => {
-				navigator.clipboard.writeText('deepakofficial81@gmail.com');
-				success('Email copied: deepakofficial81@gmail.com');
+				window.location.href = "mailto:deepakofficial81@gmail.com?subject=Hello%20Deepak%20-%20Let's%20Connect";
 			}
 		}
 	];

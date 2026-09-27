@@ -109,18 +109,9 @@
 				onclick={() => scrollTo('hero')}
 				class="flex items-center gap-2 cursor-pointer select-none bg-transparent border-none text-[#4C1A0F] font-black text-xl tracking-tight group"
 			>
-				<span
-					class="w-8 h-8 rounded-xl bg-gradient-to-br from-[#44A4D8] to-[#4A8EAC] flex items-center justify-center text-white shadow-xs group-hover:scale-105 transition-transform"
-				>
-					<span class="text-sm font-black">D</span>
-				</span>
 				<span class="font-extrabold tracking-tight">
 					Deepak<span class="text-[#F68E0B]">.</span>
 				</span>
-				<DuckIcon
-					size={18}
-					class="hidden sm:inline-block opacity-80 group-hover:opacity-100 group-hover:rotate-12 transition-all duration-300"
-				/>
 			</button>
 
 			<!-- Desktop Navigation Links -->

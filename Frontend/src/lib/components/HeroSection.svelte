@@ -159,14 +159,13 @@
 					<ArrowRight size={16} />
 				</button>
 
-				<button
-					onclick={() =>
-						document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-					class="inline-flex items-center gap-2 bg-white/90 hover:bg-[#44A4D8] hover:text-white text-[#4C1A0F] border border-[#44A4D8]/30 px-6 py-3 rounded-full shadow-xs hover:shadow-md hover:scale-105 transition-all duration-200 font-bold text-sm cursor-pointer"
+				<a
+					href="mailto:deepakofficial81@gmail.com?subject=Hello%20Deepak%20-%20Let's%20Connect"
+					class="inline-flex items-center gap-2 bg-white/90 hover:bg-[#44A4D8] hover:text-white text-[#4C1A0F] border border-[#44A4D8]/30 px-6 py-3 rounded-full shadow-xs hover:shadow-md hover:scale-105 transition-all duration-200 font-bold text-sm cursor-pointer no-underline"
 				>
 					<Mail size={16} />
 					<span>Get In Touch</span>
-				</button>
+				</a>
 			</div>
 		</div>
 	</div>
